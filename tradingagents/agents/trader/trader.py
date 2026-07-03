@@ -2,6 +2,8 @@ import functools
 import time
 import json
 
+from tradingagents.agents.utils.agent_utils import format_portfolio_context
+
 
 def create_trader(llm, memory):
     def trader_node(state, name):
@@ -22,9 +24,11 @@ def create_trader(llm, memory):
         else:
             past_memory_str = "No past memories found."
 
+        portfolio_section = format_portfolio_context(state, ticker=company_name)
+
         context = {
             "role": "user",
-            "content": f"Based on a comprehensive analysis by a team of analysts, here is an investment plan tailored for {company_name}. This plan incorporates insights from current technical market trends, macroeconomic indicators, and social media sentiment. Use this plan as a foundation for evaluating your next trading decision.\n\nProposed Investment Plan: {investment_plan}\n\nLeverage these insights to make an informed and strategic decision.",
+            "content": f"Based on a comprehensive analysis by a team of analysts, here is an investment plan tailored for {company_name}. This plan incorporates insights from current technical market trends, macroeconomic indicators, and social media sentiment. Use this plan as a foundation for evaluating your next trading decision.\n\nProposed Investment Plan: {investment_plan}\n{portfolio_section}\nLeverage these insights to make an informed and strategic decision.",
         }
 
         messages = [

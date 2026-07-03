@@ -53,6 +53,8 @@ class AgentState(MessagesState):
 
     sender: Annotated[str, "Agent that sent this message"]
 
+    portfolio_context: Annotated[dict, "Current portfolio holdings and concentrations for sizing analysis"]
+
     # research step
     market_report: Annotated[str, "Report from the Market Analyst"]
     sentiment_report: Annotated[str, "Report from the Social Media Analyst"]
